@@ -1,6 +1,9 @@
+// Add a variable for selecting the data set
 var select_controller = d3.select("#selDataset")
+console.log("select_controller")
+console.log(select_controller)
 
-// Call the data into the inspector console. 
+// Call the data into the inspector console
 d3.json("data/samples.json").then(function(data) {
     console.log("data");
     console.log(data);
@@ -15,8 +18,6 @@ d3.json("data/samples.json").then(function(data) {
             .property("value", name)
             .text(name);
     });
-
-
 });
 
 function optionChanged(selected_id) {
@@ -105,7 +106,5 @@ function optionChanged(selected_id) {
 
 // Display each key-value pair from the metadata JSON object somewhere on the page.
 
-
-// Update all of the plots any time that a new sample is selected.
     });
 }
