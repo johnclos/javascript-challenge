@@ -20,6 +20,7 @@ d3.json("data/samples.json").then(function(data) {
     });
 });
 
+// create the function to create the charts and show the demographic info
 function optionChanged(selected_id) {
     console.log("selected_id")
     console.log(selected_id)
@@ -52,6 +53,8 @@ function optionChanged(selected_id) {
         console.log("y_label: ");
         console.log(y_label);
     
+        // * Use`otu_ids` for the x values.
+        // * Use`sample_values` for the y values.
         var bar_trace = {
             y: y_label,
             x: sample_values.slice(0, 10).reverse(),
@@ -67,19 +70,9 @@ function optionChanged(selected_id) {
         
         Plotly.newPlot("bar", [bar_trace], bar_layout);
         
-        // Create a bubble chart that displays each sample.
-        // * Use`otu_ids` for the x values.
-        // * Use`sample_values` for the y values.
     // * Use`sample_values` for the marker size.
     // * Use`otu_ids` for the marker colors.
     // * Use`otu_labels` for the text values.
-
-    // var results = samples.filter(sampleObj => sampleObj.id == selected_id);
-    // var result = results[0];
-    // var otu_ids = result.otu_ids;
-    // var otu_labels = result.otu_labels;
-    // var sample_values = result.sample_values;
-    
     var bubble_trace = {
       x: otu_ids,
       y: sample_values,
@@ -99,12 +92,29 @@ function optionChanged(selected_id) {
     };
     Plotly.newPlot("bubble", [bubble_trace], bubble_layout);
 
+    var results = samples.filter(sampleObj => sampleObj.id == selected_id);
 
 
-// Display the sample metadata, i.e., an individual's demographic information.
+    // Display the sample metadata, i.e., an individual's demographic information.
+    // Demorgrphic info
+    var metadata = data.metadata;
+    console.log("metadata");
+    console.log(metadata);
+    var results = metadata.filter(metadataObj => metadataObj.id == selected_id);
+    var result = results[0];
+    console.log("results")
+    console.log(results)
+    console.log("result")
+    console.log(result)
+    var fig = d3.select("#sample-metadata");
+    fig.html("");
+    Object.entries(results[0]).forEach(([key, value]) => {
+    fig.append("h5").text(`${key}: ${value}`);
+    })
 
 
 // Display each key-value pair from the metadata JSON object somewhere on the page.
 
     });
+    
 }
