@@ -93,28 +93,23 @@ function optionChanged(selected_id) {
     Plotly.newPlot("bubble", [bubble_trace], bubble_layout);
 
     var results = samples.filter(sampleObj => sampleObj.id == selected_id);
-
-
-    // Display the sample metadata, i.e., an individual's demographic information.
-    // Demorgrphic info
-    var metadata = data.metadata;
-    console.log("metadata");
-    console.log(metadata);
-    var results = metadata.filter(metadataObj => metadataObj.id == selected_id);
-    var result = results[0];
-    console.log("results")
-    console.log(results)
-    console.log("result")
-    console.log(result)
-    var fig = d3.select("#sample-metadata");
-    fig.html("");
-    Object.entries(results[0]).forEach(([key, value]) => {
-    fig.append("h5").text(`${key}: ${value}`);
-    })
-
-
-// Display each key-value pair from the metadata JSON object somewhere on the page.
-
     });
     
+    // Display the sample metadata, i.e., an individual's demographic information.
+    d3.json("data/samples.json").then((data) => {
+        var metadata = data.metadata;
+        console.log("metadata");
+        console.log(metadata);
+        var results = metadata.filter(metadataObj => metadataObj.id == selected_id);
+        var result = results[0];
+        console.log("results")
+        console.log(results)
+        console.log("result")
+        console.log(result)
+        var fig = d3.select("#sample-metadata");
+        fig.html("");
+        Object.entries(results[0]).forEach(([key, value]) => {
+          fig.append("h5").text(`${key}: ${value}`);
+        });
+    });
 }
